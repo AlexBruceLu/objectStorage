@@ -1,18 +1,17 @@
 export LISTEN_ADDRESS=:12345
 export STORAGE_ROOT=$(PWD)/tmp
 
-TARGETS := object-storage-service
+TARGETS := object-storage-api object-storage-data
 SRC = $(shell find . -type f -name '*.go' -not -path "./vendor/*")
 
 build: $(TARGETS)
 
 $(TARGETS):$(SRC)
-	go build -o $(TARGETS) cmd/*.go
+	go build $(PWD)/cmd/$@
 
-run:$(TARGETS)
+clear: $(TARGETS)
 	rm -rf $(TARGETS)
-	go build -o $(TARGETS) cmd/*.go
+
+run: $(TARGETS)
 	./$(TARGETS)
 
-clear:
-	rm -rf $(TARGETS)

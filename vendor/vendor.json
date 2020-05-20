@@ -1,0 +1,13 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "Snh0Da35ylxzxs3AA25EQtLV8fI=",
+			"path": "github.com/streadway/amqp",
+			"revision": "1c71cc93ed716f9a6f4c2ae8955c25f9176d9f19",
+			"revisionTime": "2020-01-08T14:49:57Z"
+		}
+	],
+	"rootPath": "test/objectStorage"
+}
