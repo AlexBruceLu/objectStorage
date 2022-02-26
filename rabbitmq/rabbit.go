@@ -1,4 +1,4 @@
-package rabbitmq
+package RabbitMQ
 
 import (
 	"encoding/json"
@@ -15,7 +15,7 @@ type MQ interface {
 	Close()
 }
 
-type rabbitMQ struct {
+type RabbitMQ struct {
 	Name     string
 	channel  *amqp.Channel
 	exchange string
@@ -44,14 +44,14 @@ func New(addr string) MQ {
 		log.Fatal(e)
 	}
 
-	mq := new(rabbitMQ)
+	mq := new(RabbitMQ)
 	mq.channel = ch
 	mq.Name = q.Name
 
 	return mq
 }
 
-func (r *rabbitMQ) Bind(exchange string) {
+func (r *RabbitMQ) Bind(exchange string) {
 	if e := r.channel.QueueBind(
 		r.Name, // queue name
 		"",     // routing key
@@ -63,7 +63,7 @@ func (r *rabbitMQ) Bind(exchange string) {
 	r.exchange = exchange
 }
 
-func (r *rabbitMQ) Send(queue string, body interface{}) {
+func (r *RabbitMQ) Send(queue string, body interface{}) {
 	str, e := json.Marshal(body)
 	if e != nil {
 		log.Fatal(e)
@@ -75,7 +75,7 @@ func (r *rabbitMQ) Send(queue string, body interface{}) {
 	}
 }
 
-func (r *rabbitMQ) Publish(exchange string, body interface{}) {
+func (r *RabbitMQ) Publish(exchange string, body interface{}) {
 	str, e := json.Marshal(body)
 	if e != nil {
 		log.Fatal(e)
@@ -90,7 +90,7 @@ func (r *rabbitMQ) Publish(exchange string, body interface{}) {
 	}
 }
 
-func (r *rabbitMQ) Consume() <-chan amqp.Delivery {
+func (r *RabbitMQ) Consume() <-chan amqp.Delivery {
 	c, e := r.channel.Consume(r.Name, "", true, false, false, false, nil)
 	if e != nil {
 		log.Fatal(e)
@@ -99,6 +99,6 @@ func (r *rabbitMQ) Consume() <-chan amqp.Delivery {
 	return c
 }
 
-func (r *rabbitMQ) Close() {
+func (r *RabbitMQ) Close() {
 	r.channel.Close()
 }
