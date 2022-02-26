@@ -9,8 +9,6 @@ import (
 	"strings"
 )
 
-const STORAGE_ROOT = "storage_data"
-
 func Handler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
@@ -23,7 +21,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func get(w http.ResponseWriter, r *http.Request) {
-	path := fmt.Sprintf("%s/objects/%s", STORAGE_ROOT, strings.Split(r.URL.EscapedPath(), "/")[2])
+	path := fmt.Sprintf("%s/objects/%s", os.Getenv("STORAGE_ROOT"), strings.Split(r.URL.EscapedPath(), "/")[2])
 	f, e := os.Open(path)
 	if e != nil {
 		log.Println(e)
@@ -36,7 +34,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 }
 
 func put(w http.ResponseWriter, r *http.Request) {
-	path := fmt.Sprintf("%s/objects/%s", STORAGE_ROOT, strings.Split(r.URL.EscapedPath(), "/")[2])
+	path := fmt.Sprintf("%s/objects/%s", os.Getenv("STORAGE_ROOT"), strings.Split(r.URL.EscapedPath(), "/")[2])
 	f, e := os.Create(path)
 	if e != nil {
 		log.Println(e)
